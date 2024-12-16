@@ -82,12 +82,59 @@ import * as THREE from 'three';
     console.log(`Dimension: ${dim.name}, Difficulty: ${dim.difficulty_level}`);
   });
 
-  // Animate the scene
-  function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+// Add player movement controls with debugging
+const movementSpeed = 0.1;
+const keys = {
+  forward: false,
+  backward: false,
+  left: false,
+  right: false
+};
+
+// Debugging: Print when keys are pressed or released
+window.addEventListener('keydown', (e) => {
+  console.log(`Key down: ${e.key}`);
+  if (e.key === 'w') keys.forward = true;
+  if (e.key === 's') keys.backward = true;
+  if (e.key === 'a') keys.left = true;
+  if (e.key === 'd') keys.right = true;
+});
+
+window.addEventListener('keyup', (e) => {
+  console.log(`Key up: ${e.key}`);
+  if (e.key === 'w') keys.forward = false;
+  if (e.key === 's') keys.backward = false;
+  if (e.key === 'a') keys.left = false;
+  if (e.key === 'd') keys.right = false;
+});
+
+// Function to apply movement based on key presses
+function handleMovement() {
+  if (keys.forward) {
+    console.log("Moving forward");
+    camera.position.z -= movementSpeed;
   }
-  animate();
+  if (keys.backward) {
+    console.log("Moving backward");
+    camera.position.z += movementSpeed;
+  }
+  if (keys.left) {
+    console.log("Moving left");
+    camera.position.x -= movementSpeed;
+  }
+  if (keys.right) {
+    console.log("Moving right");
+    camera.position.x += movementSpeed;
+  }
+}
+
+// Call handleMovement in the animation loop
+function animate() {
+  requestAnimationFrame(animate);
+  handleMovement(); // Ensure this is being called
+  renderer.render(scene, camera);
+}
+animate();
 
   // Add click interaction
   window.addEventListener('click', (event) => {
