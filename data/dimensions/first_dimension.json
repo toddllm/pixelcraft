@@ -1,0 +1,11 @@
+{
+  "name":"First Dimension",
+  "description":"Starting area",
+  "difficulty_level":"easy",
+  "biomes":[
+    {"name":"Caves","description":"Underground","terrain":"rock"}
+  ],
+  "monsters":[
+    {"name":"zombies","behavior":"aggressive"}
+  ]
+}

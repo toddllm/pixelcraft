@@ -1,0 +1,13 @@
+{
+  "name":"Lava Spiders",
+  "description":"Fiery arachnids",
+  "role":"enemy",
+  "stats":{
+    "health":100,
+    "damage_per_attack":15
+  },
+  "lore":"Mutated by merging dimensions",
+  "abilities":[
+    {"name":"Burning Bite","description":"Inflicts fire damage","effect":"burn"}
+  ]
+}

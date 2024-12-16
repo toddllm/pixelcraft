@@ -1,0 +1,13 @@
+{
+  "name": "Elda",
+  "description": "A radiant fairy ally",
+  "role": "ally",
+  "stats": {
+    "health": 1000,
+    "damage_per_attack": 0
+  },
+  "lore": "From the Realm of Rainbows.",
+  "abilities": [
+    {"name":"Player Transformations","description":"Grants forms","effect":"buff"}
+  ]
+}

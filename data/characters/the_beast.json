@@ -1,0 +1,14 @@
+{
+  "name": "The Beast",
+  "description": "A seven-headed monstrosity.",
+  "role": "boss",
+  "stats": {
+    "health": 6000000,
+    "damage_per_attack": 50
+  },
+  "lore": "A corrupted guardian.",
+  "abilities": [
+    {"name":"Dark Vortex","description":"Pulls players","effect":"CC"},
+    {"name":"Dimensional Shatter","description":"Merges terrain","effect":"disorient"}
+  ]
+}

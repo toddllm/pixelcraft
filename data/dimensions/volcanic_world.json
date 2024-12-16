@@ -1,0 +1,11 @@
+{
+  "name":"Volcanic World",
+  "description":"Lava and ash",
+  "difficulty_level":"hard",
+  "biomes":[
+    {"name":"Molten Rivers","description":"Streams of lava","terrain":"lava"}
+  ],
+  "monsters":[
+    {"name":"ember bats","behavior":"hostile"}
+  ]
+}

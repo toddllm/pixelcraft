@@ -1,0 +1,11 @@
+{
+  "name":"Fungal Realm",
+  "description":"Giant mushrooms everywhere",
+  "difficulty_level":"medium",
+  "biomes":[
+    {"name":"Mushroom Fields","description":"Glowing mushrooms","terrain":"mushroom"}
+  ],
+  "monsters":[
+    {"name":"mushroom golems","behavior":"defensive"}
+  ]
+}

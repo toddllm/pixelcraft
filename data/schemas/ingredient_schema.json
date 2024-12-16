@@ -1,0 +1,9 @@
+{
+  "type":"object",
+  "properties":{
+    "name":{"type":"string"},
+    "quantity":{"type":"integer","minimum":1},
+    "type":{"type":"string"}
+  },
+  "required":["name","quantity","type"]
+}

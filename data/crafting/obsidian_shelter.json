@@ -1,0 +1,13 @@
+{
+  "name":"Obsidian Shelter",
+  "description":"A strong shelter",
+  "type":"structure",
+  "ingredients":[
+    {"name":"Obsidian","quantity":4,"type":"resource"},
+    {"name":"Wood","quantity":10,"type":"resource"}
+  ],
+  "output": {
+    "name":"Obsidian Shelter",
+    "quantity":1
+  }
+}

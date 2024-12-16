@@ -1,0 +1,13 @@
+{
+  "name":"Concindia",
+  "description":"A corrupted fairy (Dark Concindia)",
+  "role":"mini-boss",
+  "stats":{
+    "health":2000,
+    "damage_per_attack":30
+  },
+  "lore":"Protector of Forest of Whispers.",
+  "abilities":[
+    {"name":"Dark Bindings","description":"Slows player","effect":"slow"}
+  ]
+}

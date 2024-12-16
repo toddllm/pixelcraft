@@ -1,0 +1,111 @@
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const Ajv = require('ajv');
+const ajv = new Ajv({allErrors: true});
+const PORT = 3000;
+
+const args = process.argv.slice(2);
+const validateOnly = args.includes('--validate');
+
+function loadJSON(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+}
+
+const schemasDir = path.join(__dirname, 'data', 'schemas');
+
+function loadSchema(filename) {
+  return loadJSON(path.join(schemasDir, filename));
+}
+
+// Load schemas
+const characterSchema = loadSchema('character_schema.json');
+const abilitySchema = loadSchema('ability_schema.json');
+const dimensionSchema = loadSchema('dimension_schema.json');
+const biomeSchema = loadSchema('biome_schema.json');
+const monsterSchema = loadSchema('monster_schema.json');
+const eventSchema = loadSchema('event_schema.json');
+const craftingSchema = loadSchema('crafting_schema.json');
+const ingredientSchema = loadSchema('ingredient_schema.json');
+
+ajv.addSchema(characterSchema, 'character_schema.json');
+ajv.addSchema(abilitySchema, 'ability_schema.json');
+ajv.addSchema(dimensionSchema, 'dimension_schema.json');
+ajv.addSchema(biomeSchema, 'biome_schema.json');
+ajv.addSchema(monsterSchema, 'monster_schema.json');
+ajv.addSchema(eventSchema, 'event_schema.json');
+ajv.addSchema(craftingSchema, 'crafting_schema.json');
+ajv.addSchema(ingredientSchema, 'ingredient_schema.json');
+
+function validateData() {
+  const charactersDir = path.join(__dirname, 'data', 'characters');
+  const dimensionsDir = path.join(__dirname, 'data', 'dimensions');
+  const craftingDir = path.join(__dirname, 'data', 'crafting');
+
+  let allValid = true;
+
+  // Validate characters
+  for (const file of fs.readdirSync(charactersDir)) {
+    const data = loadJSON(path.join(charactersDir, file));
+    const validate = ajv.getSchema('character_schema.json');
+    if (!validate(data)) {
+      console.error(`Validation error in character ${file}:`, validate.errors);
+      allValid = false;
+    }
+  }
+
+  // Validate dimensions
+  for (const file of fs.readdirSync(dimensionsDir)) {
+    const data = loadJSON(path.join(dimensionsDir, file));
+    const validate = ajv.getSchema('dimension_schema.json');
+    if (!validate(data)) {
+      console.error(`Validation error in dimension ${file}:`, validate.errors);
+      allValid = false;
+    }
+  }
+
+  // Validate crafting
+  for (const file of fs.readdirSync(craftingDir)) {
+    const data = loadJSON(path.join(craftingDir, file));
+    const validate = ajv.getSchema('crafting_schema.json');
+    if (!validate(data)) {
+      console.error(`Validation error in crafting recipe ${file}:`, validate.errors);
+      allValid = false;
+    }
+  }
+
+  return allValid;
+}
+
+if (validateOnly) {
+  process.exit(validateData() ? 0 : 1);
+}
+
+if (!validateData()) {
+  console.error("Data validation failed. Fix errors before starting the server.");
+  process.exit(1);
+}
+
+function loadCharacters() {
+  const charactersDir = path.join(__dirname, 'data', 'characters');
+  return fs.readdirSync(charactersDir).map(f => loadJSON(path.join(charactersDir, f)));
+}
+
+function loadDimensions() {
+  const dimensionsDir = path.join(__dirname, 'data', 'dimensions');
+  return fs.readdirSync(dimensionsDir).map(f => loadJSON(path.join(dimensionsDir, f)));
+}
+
+const characters = loadCharacters();
+const dimensions = loadDimensions();
+
+const app = express();
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/gamedata', (req, res) => {
+  res.json({characters, dimensions});
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "name":{"type":"string"},
+    "description":{"type":"string"},
+    "difficulty_level":{"type":"string"},
+    "biomes": {
+      "type":"array",
+      "items":{"$ref":"biome_schema.json"}
+    },
+    "monsters": {
+      "type":"array",
+      "items":{"$ref":"monster_schema.json"}
+    },
+    "events": {
+      "type":"array",
+      "items":{"$ref":"event_schema.json"}
+    },
+    "portals": {
+      "type":"array",
+      "items":{
+        "type":"object",
+        "properties":{
+          "target_dimension":{"type":"string"},
+          "activation_conditions":{"type":"string"}
+        }
+      }
+    }
+  },
+  "required":["name","description","difficulty_level","biomes","monsters"]
+}

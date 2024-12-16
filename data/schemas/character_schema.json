@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {"type":"string"},
+    "description": {"type":"string"},
+    "role": {"type":"string"},
+    "stats": {
+      "type":"object",
+      "properties": {
+        "health": {"type":"integer"},
+        "damage_per_attack": {"type":"integer"},
+        "defense": {"type":"integer"},
+        "speed": {"type":"integer"}
+      },
+      "required":["health","damage_per_attack"]
+    },
+    "abilities": {
+      "type":"array",
+      "items":{"$ref":"ability_schema.json"}
+    },
+    "lore": {"type":"string"}
+  },
+  "required":["name","description","role","stats"]
+}

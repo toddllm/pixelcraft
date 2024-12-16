@@ -1,0 +1,13 @@
+{
+  "name":"Walking Pumpkins",
+  "description":"Sentient pumpkins",
+  "role":"enemy",
+  "stats":{
+    "health":80,
+    "damage_per_attack":10
+  },
+  "lore":"A cruel joke by the Beast",
+  "abilities":[
+    {"name":"Explosive Burst","description":"Detonates on defeat","effect":"aoe_damage"}
+  ]
+}

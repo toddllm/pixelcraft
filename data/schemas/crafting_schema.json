@@ -1,0 +1,21 @@
+{
+  "type":"object",
+  "properties":{
+    "name":{"type":"string"},
+    "description":{"type":"string"},
+    "type":{"type":"string"},
+    "ingredients":{
+      "type":"array",
+      "items":{"$ref":"ingredient_schema.json"}
+    },
+    "output":{
+      "type":"object",
+      "properties":{
+        "name":{"type":"string"},
+        "quantity":{"type":"integer"}
+      },
+      "required":["name","quantity"]
+    }
+  },
+  "required":["name","type","ingredients","output"]
+}

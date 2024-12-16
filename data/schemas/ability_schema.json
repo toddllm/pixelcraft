@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "name":{"type":"string"},
+    "description":{"type":"string"},
+    "effect":{"type":"string"},
+    "damage":{"type":"integer"},
+    "range":{"type":"string"},
+    "duration":{"type":"integer"},
+    "cooldown":{"type":"integer"}
+  },
+  "required":["name","description","effect"]
+}

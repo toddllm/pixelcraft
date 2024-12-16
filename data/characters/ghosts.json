@@ -1,0 +1,13 @@
+{
+  "name":"Ghosts",
+  "description":"Haunting spirits",
+  "role":"enemy",
+  "stats":{
+    "health":50,
+    "damage_per_attack":5
+  },
+  "lore":"Lingering souls",
+  "abilities":[
+    {"name":"Phase Through Walls","description":"bypass obstacles","effect":"none"}
+  ]
+}

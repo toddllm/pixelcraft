@@ -1,0 +1,9 @@
+{
+  "type":"object",
+  "properties":{
+    "name":{"type":"string"},
+    "description":{"type":"string"},
+    "trigger_conditions":{"type":"string"}
+  },
+  "required":["name","description","trigger_conditions"]
+}
