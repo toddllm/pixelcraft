@@ -1,7 +1,8 @@
-// Import the necessary components from three.js
+// Import necessary components from three.js
 import * as THREE from 'three';
+import { characterModels } from './src/generatedModels.js';
 
-// Player and movement parameters
+// Player and environment setup
 const playerSpeed = 0.1;
 const playerInitialPosition = new THREE.Vector3(0, 1, 0);
 const gravity = 0.01;
@@ -13,7 +14,86 @@ const moveBounds = {
   zMax: 10
 };
 
+// Function to create geometry based on shape and size
+function createGeometry(shape, size) {
+  // size is [x, y, z]
+  switch (shape.toLowerCase()) {
+    case 'sphere':
+      // Typically sphere sizes are uniform radius, but here we might just use the x component as radius
+      return new THREE.SphereGeometry(size[0], 16, 16);
+    case 'block':
+    case 'box':
+      return new THREE.BoxGeometry(size[0], size[1], size[2]);
+    case 'cylinder':
+      // Interpreting size as [radius, height, radius] or [diameter, height, diameter]
+      // We'll assume size[0] is radius, size[1] height, and size[2] maybe ignored or same as radius
+      return new THREE.CylinderGeometry(size[0], size[0], size[1], 16);
+    case 'plane':
+      return new THREE.PlaneGeometry(size[0], size[1]);
+    case 'cylinder (leg)':
+      // Just a note if needed, but we'll stick to the standard cylinder:
+      return new THREE.CylinderGeometry(size[0], size[0], size[1], 16);
+    default:
+      // Default to a box if undefined
+      return new THREE.BoxGeometry(size[0] || 0.5, size[1] || 0.5, size[2] || 0.5);
+  }
+}
+
+// Function to create material based on color (simple Lambert for now)
+function createMaterial(color, transparency) {
+  const matParams = { color: color };
+  if (typeof transparency === 'number' && transparency < 1) {
+    matParams.transparent = true;
+    matParams.opacity = transparency;
+  }
+  return new THREE.MeshLambertMaterial(matParams);
+}
+
+// Create a character from its model definition
+function createCharacterModel(name) {
+  const modelDef = characterModels[name];
+  if (!modelDef) {
+    console.warn("No model definition found for character:", name);
+    return null;
+  }
+
+  // Create a group to hold all parts
+  const group = new THREE.Group();
+  group.name = name;
+
+  // First, create all parts as meshes
+  const parts = {};
+  for (let p of modelDef.parts) {
+    const geo = createGeometry(p.shape, p.size);
+    const col = new THREE.Color(p.color);
+    const mat = createMaterial(col);
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(p.position[0], p.position[1], p.position[2]);
+    parts[p.name] = mesh;
+  }
+
+  // Weld parts by adding them as children of their parent parts
+  // The main assumption: part0 is the parent, part1 is the child
+  for (let w of modelDef.welds) {
+    if (parts[w.part0] && parts[w.part1]) {
+      parts[w.part0].add(parts[w.part1]);
+    }
+  }
+
+  // Find all parts that are not children of others (those will be parent-level)
+  // We do this by checking if a part is a child of another. If not, attach it to the group
+  const weldedParts = new Set(modelDef.welds.map(w => w.part1));
+  for (let pName in parts) {
+    if (!weldedParts.has(pName)) {
+      group.add(parts[pName]);
+    }
+  }
+
+  return group;
+}
+
 (async function () {
+  // Fetch the character and dimension data from the mock backend
   const response = await fetch('/gamedata');
   const { characters, dimensions } = await response.json();
   console.log("Loaded characters:", characters);
@@ -47,49 +127,32 @@ const moveBounds = {
   const enemies = characters.filter((c) => c.role === 'enemy');
   const bosses = characters.filter((c) => c.role === 'boss' || c.role === 'mini-boss');
 
-  function placeCharacters(chars, startX, colorFn, geometryFn) {
+  function placeCharacters(chars, startX) {
     const spacing = 1.5;
     chars.forEach((char, i) => {
-      const geo = geometryFn(char);
-      const mat = new THREE.MeshLambertMaterial({ color: colorFn(char) });
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.x = startX + i * spacing;
-      mesh.position.y = 0.5;
-      mesh.userData = { name: char.name };
-      scene.add(mesh);
+      const charModel = createCharacterModel(char.name);
+      if (charModel) {
+        charModel.position.x = startX + i * spacing;
+        charModel.position.y = 0.5;
+        // Store character name in userData for interaction
+        charModel.userData = { name: char.name };
+        scene.add(charModel);
+      } else {
+        // If no model defined in characterModels, fall back to basic shape
+        const geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+        const mat = new THREE.MeshLambertMaterial({ color: 0xffffff });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.x = startX + i * spacing;
+        mesh.position.y = 0.5;
+        mesh.userData = { name: char.name };
+        scene.add(mesh);
+      }
     });
   }
 
-  function characterColor(char) {
-    switch (char.role) {
-      case 'ally':
-        return 0x00ff00;
-      case 'enemy':
-        return 0xff0000;
-      case 'mini-boss':
-      case 'boss':
-        return 0x800080;
-      default:
-        return 0xffffff;
-    }
-  }
-
-  function characterGeometry(char) {
-    if (char.role === 'ally') {
-      return new THREE.SphereGeometry(0.5, 16, 16);
-    } else if (char.role === 'enemy') {
-      return new THREE.BoxGeometry(0.5, 0.5, 0.5);
-    } else if (char.role === 'mini-boss' || char.role === 'boss') {
-      return new THREE.SphereGeometry(0.7, 16, 16);
-    } else {
-      return new THREE.BoxGeometry(0.5, 0.5, 0.5);
-    }
-  }
-
-  // Place allies, enemies, and bosses in different groups
-  placeCharacters(allies, -5, characterColor, characterGeometry);
-  placeCharacters(enemies, -1, characterColor, characterGeometry);
-  placeCharacters(bosses, 3, characterColor, characterGeometry);
+  placeCharacters(allies, -5);
+  placeCharacters(enemies, -1);
+  placeCharacters(bosses, 3);
 
   // Log dimensions for debugging
   dimensions.forEach((dim) => {
@@ -114,7 +177,6 @@ const moveBounds = {
   scene.add(ground);
 
   // --- Boundary Markers for Debugging ---
-  // We will add simple lines or cubes at the boundaries
   function addBoundaryMarker(x, z) {
     const markerGeo = new THREE.BoxGeometry(0.2, 0.2, 0.2);
     const markerMat = new THREE.MeshBasicMaterial({ color: 0xffaa00 });
@@ -152,12 +214,8 @@ const moveBounds = {
   });
 
   // --- Collision Detection ---
-  // For simplicity, we only check collisions with scene children that are not the player and not the ground
   const raycaster = new THREE.Raycaster();
-
   function checkCollision(newPosition) {
-    // Cast rays from the new position to detect collisions with obstacles
-    // We'll do a basic check in front, back, left, right directions
     const directions = [
       new THREE.Vector3(1,0,0),
       new THREE.Vector3(-1,0,0),
@@ -169,7 +227,7 @@ const moveBounds = {
       raycaster.set(newPosition.clone(), dir.clone().normalize());
       const intersects = raycaster.intersectObjects(scene.children, true).filter(obj => obj.object !== player && obj.object !== ground);
       if (intersects.length > 0 && intersects[0].distance < 0.5) {
-        // Collision detected if something is closer than player's radius
+        // Collision detected
         return true;
       }
     }
@@ -179,7 +237,6 @@ const moveBounds = {
 
   // --- Movement and Gravity ---
   function applyMovement() {
-    // Determine intended movement
     let moveX = 0;
     let moveZ = 0;
     if (keys.forward) moveZ -= playerSpeed;
@@ -201,7 +258,6 @@ const moveBounds = {
     }
 
     // Gravity
-    // If player is above ground level, apply gravity
     if (player.position.y > groundLevel + 0.001) {
       player.position.y -= gravity;
     } else {
@@ -211,29 +267,20 @@ const moveBounds = {
     // Movement state
     const isMovingNow = (keys.forward || keys.backward || keys.left || keys.right);
     if (isMovingNow && !player.userData.isMoving) {
-      // Transition from idle to moving
       player.userData.isMoving = true;
     } else if (!isMovingNow && player.userData.isMoving) {
-      // Transition from moving to idle
       player.userData.isMoving = false;
     }
 
     // Change player color based on movement
     const currentColor = new THREE.Color(playerMaterial.color.getHex());
     const targetColor = new THREE.Color(player.userData.isMoving ? 0xffffff : 0x888888);
-    // Linear interpolation of color
     currentColor.lerp(targetColor, 0.1);
     playerMaterial.color.set(currentColor);
-
-    // Log player position for debugging
-    if (isMovingNow) {
-      console.log(`Player Position: x=${player.position.x.toFixed(2)} y=${player.position.y.toFixed(2)} z=${player.position.z.toFixed(2)}`);
-    }
   }
 
   // --- Camera Behavior ---
   function updateCamera() {
-    // Third-person camera offset
     const offsetZ = 5;
     const offsetY = 3;
     camera.position.x = player.position.x;
@@ -242,7 +289,7 @@ const moveBounds = {
     camera.lookAt(player.position);
   }
 
-  // Animation Loop
+  // Animation loop
   function animate() {
     requestAnimationFrame(animate);
     applyMovement();

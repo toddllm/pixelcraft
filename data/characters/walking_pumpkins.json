@@ -1,13 +1,85 @@
 {
-  "name":"Walking Pumpkins",
-  "description":"Sentient pumpkins",
-  "role":"enemy",
-  "stats":{
-    "health":80,
-    "damage_per_attack":10
+  "name": "Walking Pumpkins",
+  "description": "Sentient pumpkins created as a cruel joke by the Beast. They gather in groups and can be surprisingly dangerous.",
+  "role": "enemy",
+  "stats": {
+    "health": 80,
+    "damage_per_attack": 10
   },
-  "lore":"A cruel joke by the Beast",
-  "abilities":[
-    {"name":"Explosive Burst","description":"Detonates on defeat","effect":"aoe_damage"}
-  ]
+  "lore": "Once innocent gourds, animated by dark magic and thriving in autumnal biomes.",
+  "abilities": [
+    {
+      "name": "Explosive Burst",
+      "description": "Detonates upon defeat, damaging nearby players",
+      "effect": "aoe_damage"
+    }
+  ],
+  "appearance": {
+    "faces": "Glowing jack-o’-lantern faces with unique expressions (angry, goofy, sinister).",
+    "body": "Pumpkin supported by vine-like limbs with thorns.",
+    "movement": "Bouncy, jittery gait, vines clicking against the ground.",
+    "aura": "A faint orange glow, occasionally releasing pumpkin-scented smoke."
+  },
+  "model": {
+    "parts": [
+      {
+        "name": "Body",
+        "shape": "Sphere",
+        "material": "Organic",
+        "color": "#ffa500",
+        "size": [
+          0.6,
+          0.6,
+          0.6
+        ],
+        "position": [
+          0,
+          0.5,
+          0
+        ]
+      },
+      {
+        "name": "VineLegFront",
+        "shape": "Cylinder",
+        "material": "Vine",
+        "color": "#006400",
+        "size": [
+          0.05,
+          0.4,
+          0.05
+        ],
+        "position": [
+          0,
+          0.3,
+          0.2
+        ]
+      },
+      {
+        "name": "VineLegBack",
+        "shape": "Cylinder",
+        "material": "Vine",
+        "color": "#006400",
+        "size": [
+          0.05,
+          0.4,
+          0.05
+        ],
+        "position": [
+          0,
+          0.3,
+          -0.2
+        ]
+      }
+    ],
+    "welds": [
+      {
+        "part0": "Body",
+        "part1": "VineLegFront"
+      },
+      {
+        "part0": "Body",
+        "part1": "VineLegBack"
+      }
+    ]
+  }
 }

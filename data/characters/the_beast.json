@@ -1,14 +1,157 @@
 {
   "name": "The Beast",
-  "description": "A seven-headed monstrosity.",
+  "description": "The final boss, a catastrophic creature of chaos. Seven heads, four horns, and three red eyes per head. Razor-sharp claws, fangs, and dark magic that warps the multiverse.",
   "role": "boss",
   "stats": {
     "health": 6000000,
     "damage_per_attack": 50
   },
-  "lore": "A corrupted guardian.",
+  "lore": "Once a guardian of balance, now corrupted by forbidden dark magic, The Beast merges dimensions and spreads chaos across the multiverse.",
   "abilities": [
-    {"name":"Dark Vortex","description":"Pulls players","effect":"CC"},
-    {"name":"Dimensional Shatter","description":"Merges terrain","effect":"disorient"}
-  ]
+    {
+      "name": "Dark Vortex",
+      "description": "Pulls players and objects into deadly vortexes.",
+      "effect": "control"
+    },
+    {
+      "name": "Dimensional Shatter",
+      "description": "Merges terrains from multiple dimensions, causing disorientation.",
+      "effect": "disorient"
+    },
+    {
+      "name": "Minion Summon",
+      "description": "Calls waves of monsters to aid the Beast.",
+      "effect": "summon"
+    }
+  ],
+  "appearance": {
+    "heads": "Seven reptilian heads, each distinct. Each head has three blood-red eyes, and unique features such as scars or broken horns.",
+    "horns": "Two massive downward-curving horns and two smaller upward horns.",
+    "eyes": "Three glowing, blood-red eyes per head, with one eye on the forehead.",
+    "body": "Covered in overlapping obsidian scales with glowing cracks pulsing dark energy.",
+    "claws": "Razor-sharp, sword-length claws dripping with a viscous dark substance.",
+    "aura": "A swirling distortion effect, fragments of broken dimensions hover around its massive form."
+  },
+  "model": {
+    "parts": [
+      {
+        "name": "Body",
+        "shape": "Block",
+        "material": "Obsidian",
+        "color": "#1a1a1a",
+        "size": [
+          10,
+          20,
+          10
+        ],
+        "position": [
+          0,
+          10,
+          0
+        ]
+      },
+      {
+        "name": "HeadBase",
+        "shape": "Block",
+        "material": "Obsidian",
+        "color": "#1a1a1a",
+        "size": [
+          3,
+          3,
+          3
+        ],
+        "position": [
+          0,
+          21,
+          0
+        ]
+      },
+      {
+        "name": "Head0",
+        "shape": "Sphere",
+        "material": "Obsidian",
+        "color": "#660000",
+        "size": [
+          2,
+          2,
+          2
+        ],
+        "position": [
+          -2,
+          22,
+          0
+        ]
+      },
+      {
+        "name": "Head1",
+        "shape": "Sphere",
+        "material": "Obsidian",
+        "color": "#660000",
+        "size": [
+          2,
+          2,
+          2
+        ],
+        "position": [
+          2,
+          22,
+          0
+        ]
+      },
+      {
+        "name": "LowerHornLeft",
+        "shape": "Cylinder",
+        "material": "Obsidian",
+        "color": "#1a1a1a",
+        "size": [
+          0.5,
+          3,
+          0.5
+        ],
+        "position": [
+          -1,
+          22,
+          0
+        ]
+      },
+      {
+        "name": "LowerHornRight",
+        "shape": "Cylinder",
+        "material": "Obsidian",
+        "color": "#1a1a1a",
+        "size": [
+          0.5,
+          3,
+          0.5
+        ],
+        "position": [
+          1,
+          22,
+          0
+        ]
+      }
+    ],
+    "welds": [
+      {
+        "part0": "Body",
+        "part1": "HeadBase"
+      },
+      {
+        "part0": "HeadBase",
+        "part1": "Head0"
+      },
+      {
+        "part0": "HeadBase",
+        "part1": "Head1"
+      },
+      {
+        "part0": "HeadBase",
+        "part1": "LowerHornLeft"
+      },
+      {
+        "part0": "HeadBase",
+        "part1": "LowerHornRight"
+      }
+    ]
+  }
 }

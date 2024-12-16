@@ -1,13 +1,99 @@
 {
-  "name":"Concindia",
-  "description":"A corrupted fairy (Dark Concindia)",
-  "role":"mini-boss",
-  "stats":{
-    "health":2000,
-    "damage_per_attack":30
+  "name": "Concindia",
+  "description": "A fairy once pure, now corrupted into Dark Concindia by the Beast’s influence. Serves as a mini-boss in her dark form.",
+  "role": "mini-boss",
+  "stats": {
+    "health": 2000,
+    "damage_per_attack": 30
   },
-  "lore":"Protector of Forest of Whispers.",
-  "abilities":[
-    {"name":"Dark Bindings","description":"Slows player","effect":"slow"}
-  ]
+  "lore": "Originally the protector of the Forest of Whispers, Concindia fell to the Beast’s dark magic. Once defeated, she reverts to her original form, providing powerful crafting recipes and unlocking the Forest Portal.",
+  "abilities": [
+    {
+      "name": "Dark Bindings",
+      "description": "Slows player movement",
+      "effect": "slow"
+    },
+    {
+      "name": "Corrupted Forest Magic",
+      "description": "Summons thorny vines to attack players",
+      "effect": "dot"
+    }
+  ],
+  "appearance": {
+    "original_form": {
+      "wings": "Leaf-like, vibrant green wings with vein-like patterns.",
+      "clothing": "Earth-toned garments, appearing as moss and bark.",
+      "hair": "Auburn, tied back with a vine.",
+      "face": "Bright and serene with freckles and a mischievous smile."
+    },
+    "corrupted_form": {
+      "wings": "Torn and decayed, with holes and an ashen texture.",
+      "eyes": "Glowing violet with unnatural intensity.",
+      "clothing": "Shredded, with thorn-like growths on the shoulders.",
+      "hair": "Wild, unkempt, streaked with black.",
+      "aura": "A faint black mist. Thorny vines sprout beneath her feet as she moves."
+    }
+  },
+  "model": {
+    "parts": [
+      {
+        "name": "Body",
+        "shape": "Sphere",
+        "material": "MossyFabric",
+        "color": "#228B22",
+        "size": [
+          1,
+          1,
+          1
+        ],
+        "position": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "name": "WingLeft",
+        "shape": "Plane",
+        "material": "Leaf",
+        "color": "#00ff00",
+        "size": [
+          0.5,
+          1,
+          0.01
+        ],
+        "position": [
+          -0.4,
+          1,
+          0
+        ]
+      },
+      {
+        "name": "WingRight",
+        "shape": "Plane",
+        "material": "Leaf",
+        "color": "#00ff00",
+        "size": [
+          0.5,
+          1,
+          0.01
+        ],
+        "position": [
+          0.4,
+          1,
+          0
+        ]
+      }
+    ],
+    "welds": [
+      {
+        "part0": "Body",
+        "part1": "WingLeft"
+      },
+      {
+        "part0": "Body",
+        "part1": "WingRight"
+      }
+    ]
+  }
 }

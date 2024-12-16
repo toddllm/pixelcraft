@@ -1,13 +1,90 @@
 {
-  "name":"Lava Spiders",
-  "description":"Fiery arachnids",
-  "role":"enemy",
-  "stats":{
-    "health":100,
-    "damage_per_attack":15
+  "name": "Lava Spiders",
+  "description": "Fiery arachnids mutated by dimensional merging, lurking in volcanic regions.",
+  "role": "enemy",
+  "stats": {
+    "health": 100,
+    "damage_per_attack": 15
   },
-  "lore":"Mutated by merging dimensions",
-  "abilities":[
-    {"name":"Burning Bite","description":"Inflicts fire damage","effect":"burn"}
-  ]
+  "lore": "Once harmless cave creatures, now infused with molten energy by the Beast’s corruption.",
+  "abilities": [
+    {
+      "name": "Burning Bite",
+      "description": "Inflicts fire damage over time",
+      "effect": "burn"
+    },
+    {
+      "name": "Lava Camouflage",
+      "description": "Nearly invisible in lava",
+      "effect": "stealth"
+    }
+  ],
+  "appearance": {
+    "body": "Small, rounded body glowing like molten rock.",
+    "legs": "Thin, obsidian-like legs tipped with glowing red claws.",
+    "eyes": "Eight ember-like eyes, flickering menacingly.",
+    "movement": "Quick, erratic, and eerily silent. Nearly invisible when submerged in lava."
+  },
+  "model": {
+    "parts": [
+      {
+        "name": "Body",
+        "shape": "Sphere",
+        "material": "VolcanicStone",
+        "color": "#ff4500",
+        "size": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "position": [
+          0,
+          0.5,
+          0
+        ]
+      },
+      {
+        "name": "Leg0",
+        "shape": "Cylinder",
+        "material": "Obsidian",
+        "color": "#8B0000",
+        "size": [
+          0.05,
+          0.5,
+          0.05
+        ],
+        "position": [
+          0.3,
+          0.5,
+          0
+        ]
+      },
+      {
+        "name": "Leg1",
+        "shape": "Cylinder",
+        "material": "Obsidian",
+        "color": "#8B0000",
+        "size": [
+          0.05,
+          0.5,
+          0.05
+        ],
+        "position": [
+          -0.3,
+          0.5,
+          0
+        ]
+      }
+    ],
+    "welds": [
+      {
+        "part0": "Body",
+        "part1": "Leg0"
+      },
+      {
+        "part0": "Body",
+        "part1": "Leg1"
+      }
+    ]
+  }
 }

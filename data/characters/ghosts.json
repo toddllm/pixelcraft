@@ -1,13 +1,50 @@
 {
-  "name":"Ghosts",
-  "description":"Haunting spirits",
-  "role":"enemy",
-  "stats":{
-    "health":50,
-    "damage_per_attack":5
+  "name": "Ghosts",
+  "description": "Transparent spirits haunting dark areas, bound to the material plane by the Beast’s magic.",
+  "role": "enemy",
+  "stats": {
+    "health": 50,
+    "damage_per_attack": 5
   },
-  "lore":"Lingering souls",
-  "abilities":[
-    {"name":"Phase Through Walls","description":"bypass obstacles","effect":"none"}
-  ]
+  "lore": "Lingering souls of those who perished in the Beast’s dimensional upheaval.",
+  "abilities": [
+    {
+      "name": "Phase Through Walls",
+      "description": "Bypasses obstacles",
+      "effect": "utility"
+    },
+    {
+      "name": "Chill Touch",
+      "description": "Slows the player on contact",
+      "effect": "slow"
+    }
+  ],
+  "appearance": {
+    "form": "Semi-transparent, humanoid silhouettes in tattered robes.",
+    "eyes": "Hollow, softly glowing in white or blue.",
+    "aura": "A faint mist and cold particles float in the air nearby.",
+    "movement": "Glides silently, phasing through walls with eerie flickers."
+  },
+  "model": {
+    "parts": [
+      {
+        "name": "Body",
+        "shape": "Cylinder",
+        "material": "Ethereal",
+        "color": "#ccccff",
+        "size": [
+          0.5,
+          1.5,
+          0.5
+        ],
+        "position": [
+          0,
+          1,
+          0
+        ],
+        "transparency": 0.5
+      }
+    ],
+    "welds": []
+  }
 }

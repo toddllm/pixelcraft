@@ -1,13 +1,97 @@
 {
   "name": "Elda",
-  "description": "A radiant fairy ally",
+  "description": "A radiant fairy with shimmering, rainbow-hued wings. Guides and assists the player by granting transformations, providing hints, and dispelling small areas of dark magic.",
   "role": "ally",
   "stats": {
     "health": 1000,
     "damage_per_attack": 0
   },
-  "lore": "From the Realm of Rainbows.",
+  "lore": "Hailing from the Realm of Rainbows, Elda escaped its corruption and now helps restore balance. She is kind and wise, though sorrowful for her lost home.",
   "abilities": [
-    {"name":"Player Transformations","description":"Grants forms","effect":"buff"}
-  ]
+    {
+      "name": "Player Transformations",
+      "description": "Temporarily grants player unique forms (e.g., fireproof form).",
+      "effect": "buff"
+    },
+    {
+      "name": "Rainbow Light",
+      "description": "Dispels small areas of dark magic.",
+      "effect": "cleanse"
+    },
+    {
+      "name": "Hints and Recipes",
+      "description": "Offers cryptic crafting advice and puzzle hints.",
+      "effect": "guide"
+    }
+  ],
+  "appearance": {
+    "size": "Tiny, about the size of a human hand.",
+    "wings": "Delicate, shimmering, dragonfly-like wings with subtle rainbow hues.",
+    "hair": "Long golden hair, cascading like sunlight.",
+    "clothing": "A dress of glowing, color-shifting petals.",
+    "eyes": "Sky-blue, sparkling with curiosity.",
+    "glow": "A soft, warm light radiates from her, brightening with excitement or magic use."
+  },
+  "model": {
+    "parts": [
+      {
+        "name": "Body",
+        "shape": "Sphere",
+        "material": "MagicalFabric",
+        "color": "#ffffaa",
+        "size": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "position": [
+          0,
+          1,
+          0
+        ]
+      },
+      {
+        "name": "WingLeft",
+        "shape": "Plane",
+        "material": "EnergyWings",
+        "color": "#ffffff",
+        "size": [
+          0.2,
+          0.5,
+          0.01
+        ],
+        "position": [
+          -0.2,
+          1,
+          0
+        ]
+      },
+      {
+        "name": "WingRight",
+        "shape": "Plane",
+        "material": "EnergyWings",
+        "color": "#ffffff",
+        "size": [
+          0.2,
+          0.5,
+          0.01
+        ],
+        "position": [
+          0.2,
+          1,
+          0
+        ]
+      }
+    ],
+    "welds": [
+      {
+        "part0": "Body",
+        "part1": "WingLeft"
+      },
+      {
+        "part0": "Body",
+        "part1": "WingRight"
+      }
+    ]
+  }
 }
